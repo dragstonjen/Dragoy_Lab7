@@ -1,49 +1,40 @@
 #include <iostream>
 #include <windows.h>
-#include <string>
 #include <vector>
 #include <climits>
 
 using namespace std;
 
+int maxSubArraySum(const vector<int>& arr) {
+    int max_sum = INT_MIN;
+
+    for (int i = 0; i < arr.size(); i++) {
+        int current_sum = 0;
+
+        for (int j = i; j < arr.size(); j++) {
+            current_sum += arr[j];
+            max_sum = max(max_sum, current_sum); 
+        }
+    }
+
+    return max_sum;
+}
+
 int main() {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
     int n;
-    cout << "Введіть кількість елементів у масиві: ";
+    cout << "Введіть кількість елементів масиву: ";
     cin >> n;
 
-    vector<int> array(n);
-    cout << "Введіть елементи масиву:\n";
-    for (int x = 0; x < n; x++) {
-        cin >> array[x];
+    vector<int> arr(n);
+
+    cout << "Введіть елементи масиву: ";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
     }
-
-    int maxSum = INT_MIN;
-    int currentSum = 0;
-    int start = 0, end = 0, tempStart = 0;
-
-    for (int x = 0; x < n; x++) {
-        currentSum += array[x]; 
-
-        if (currentSum > maxSum) {
-            maxSum = currentSum;
-            start = tempStart;
-            end = x;
-        }
-
-        if (currentSum < 0) {
-            currentSum = 0;
-            tempStart = x + 1;
-        }
-    }
-
-    cout << "Максимальна сума: " << maxSum << "\n";
-    cout << "Підмасив із максимальною сумою: ";
-    for (int x = start; x <= end; x++) {
-        cout << array[x] << " ";
-    }
-    cout << endl;
+    int result = maxSubArraySum(arr);
+    cout << "Максимальна сума підмасиву: " << result << endl;
 
     return 0;
 }
